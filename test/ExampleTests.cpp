@@ -33,7 +33,7 @@ TEST_F(ExampleTests, SUM)
 TEST_F(ExampleTests, SQ)
 {
     int x = GetX();
-    int sqNumber = 25;
+    int sqNumber = 5;
     int expectedSquare = x * x;
     EXPECT_EQ(sqNumber, square(x));
     EXPECT_EQ(expectedSquare, sqNumber);
