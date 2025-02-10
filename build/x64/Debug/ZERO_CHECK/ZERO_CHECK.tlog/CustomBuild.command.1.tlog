@@ -1,0 +1,10 @@
+^D:\THAKUR WORKSPACE\YATRI\P2\SOFTWARE\EAMPLE\BUILD\CMAKEFILES\E427F0C9B433A36BC7F0ECFF14FA9AF7\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SD:/Thakur Workspace/Yatri/P2/software/Eample" "-BD:/Thakur Workspace/Yatri/P2/software/Eample/build" --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file "D:/Thakur Workspace/Yatri/P2/software/Eample/build/Example.sln"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
