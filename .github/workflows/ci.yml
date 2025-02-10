@@ -14,7 +14,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
-          submodules: true # Ensures submodules are checked out correctly
+          submodules: recursive # Ensures submodules are checked out correctly
+          fetch-depth: 1
+
+      - name: Update Submodules
+        run: git submodule update --init --recursive
 
       - name: Install Dependencies
         run: sudo apt-get update && sudo apt-get install -y cmake g++ make
@@ -28,7 +32,7 @@ jobs:
       - name: Build Project
         run: |
           cd build
-          make -j$(nproc)  # Use multiple cores for faster builds
+          make -j$(nproc)
 
       - name: Run Unit Tests
         run: |
