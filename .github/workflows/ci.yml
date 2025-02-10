@@ -11,14 +11,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout Repository with Submodules
         uses: actions/checkout@v3
         with:
-          submodules: recursive # Ensures submodules are checked out correctly
-          fetch-depth: 1
+          submodules: recursive # Fetch all submodules recursively
+          fetch-depth: 0 # Fetch full commit history to avoid issues
 
-      - name: Update Submodules
-        run: git submodule update --init --recursive
+      - name: Manually Sync and Update Submodules
+        run: |
+          git submodule sync --recursive
+          git submodule update --init --recursive
 
       - name: Install Dependencies
         run: sudo apt-get update && sudo apt-get install -y cmake g++ make
