@@ -13,13 +13,11 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+        with:
+          submodules: true # Ensures submodules are checked out correctly
 
       - name: Install Dependencies
         run: sudo apt-get update && sudo apt-get install -y cmake g++ make
-
-      - name: Set up Google Test
-        run: |
-          git submodule update --init --recursive
 
       - name: Configure CMake
         run: |
@@ -30,9 +28,15 @@ jobs:
       - name: Build Project
         run: |
           cd build
-          make
+          make -j$(nproc)  # Use multiple cores for faster builds
 
       - name: Run Unit Tests
         run: |
           cd build
           ctest --output-on-failure
+
+      - name: Upload Test Results (Optional)
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: build/*.xml # Adjust if needed for test reports
