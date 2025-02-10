@@ -1,10 +1,65 @@
+# name: Google Test CI
+
+# on:
+#   push:
+#     branches: [main]
+#   pull_request:
+#     branches: [main]
+
+# jobs:
+#   build-and-test:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout Repository with Submodules
+#         uses: actions/checkout@v3
+#         with:
+#           submodules: recursive
+#           fetch-depth: 0
+
+#       - name: Manually Sync and Update Submodules
+#         run: |
+#           git submodule sync --recursive
+#           git submodule update --init --recursive
+
+#       - name: Install Dependencies
+#         run: sudo apt-get update && sudo apt-get install -y cmake g++ make
+
+#       - name: Clean Build Directory # 🔥 NEW: This step removes the old build cache
+#         run: |
+#           rm -rf build
+#           mkdir -p build
+
+#       - name: Configure CMake
+#         run: |
+#           cd build
+#           cmake ..
+
+#       - name: Build Project
+#         run: |
+#           cd build
+#           make -j$(nproc)
+
+#       - name: Run Unit Tests
+#         run: |
+#           cd build
+#           ctest --output-on-failure
+
+#       - name: Upload Test Results (Optional)
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: test-results
+#           path: build/*.xml
+
 name: Google Test CI
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   build-and-test:
@@ -25,7 +80,7 @@ jobs:
       - name: Install Dependencies
         run: sudo apt-get update && sudo apt-get install -y cmake g++ make
 
-      - name: Clean Build Directory # 🔥 NEW: This step removes the old build cache
+      - name: Clean Build Directory
         run: |
           rm -rf build
           mkdir -p build
@@ -44,6 +99,7 @@ jobs:
         run: |
           cd build
           ctest --output-on-failure
+        continue-on-error: false # 🔥 This ensures the workflow fails if tests fail
 
       - name: Upload Test Results (Optional)
         uses: actions/upload-artifact@v4
