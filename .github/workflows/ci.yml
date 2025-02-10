@@ -14,8 +14,8 @@ jobs:
       - name: Checkout Repository with Submodules
         uses: actions/checkout@v3
         with:
-          submodules: recursive # Fetch all submodules recursively
-          fetch-depth: 0 # Fetch full commit history to avoid issues
+          submodules: recursive
+          fetch-depth: 0
 
       - name: Manually Sync and Update Submodules
         run: |
@@ -25,9 +25,13 @@ jobs:
       - name: Install Dependencies
         run: sudo apt-get update && sudo apt-get install -y cmake g++ make
 
+      - name: Clean Build Directory # 🔥 NEW: This step removes the old build cache
+        run: |
+          rm -rf build
+          mkdir -p build
+
       - name: Configure CMake
         run: |
-          mkdir -p build
           cd build
           cmake ..
 
@@ -45,4 +49,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test-results
-          path: build/*.xml # Adjust if needed for test reports
+          path: build/*.xml
